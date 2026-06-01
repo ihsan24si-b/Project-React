@@ -14,6 +14,7 @@ const SparepartDetail = React.lazy(() => import("./pages/SparepartDetail"));
 const Login = React.lazy(() => import("./pages/auth/Login"));
 const Register = React.lazy(() => import("./pages/auth/Register"));
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
+const Components = React.lazy(() => import("./pages/Components"));
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                     <Route path="/services" element={<ServiceQueue />} />
                     <Route path="/spareparts" element={<Spareparts />} />
                     <Route path="/spareparts/:id" element={<SparepartDetail />} />
+                    <Route path="/components" element={<Components />} />
                 </Route>
 
                 {/* Auth Layout: Halaman Polos (Login/Register) */}

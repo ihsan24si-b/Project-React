@@ -30,6 +30,11 @@ export default function Sidebar() {
                             <MdBuild className="mr-3 text-2xl" /> Spareparts
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/components" id="menu-4" className={menuClass}>
+                            <MdBuild className="mr-3 text-2xl" /> Components
+                        </Link>
+                    </li>
 
                     <li className="pt-6 pb-2">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">System Pages</span>
