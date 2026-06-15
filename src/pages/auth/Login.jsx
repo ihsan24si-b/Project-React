@@ -1,4 +1,4 @@
-import axios from "axios";
+import { supabase } from "../../lib/supabase";
 import { useState } from "react";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
@@ -23,32 +23,35 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(false);
 
-    axios
-      .post("https://dummyjson.com/user/login", {
-        username: dataForm.email,
-        password: dataForm.password,
-      })
-      .then((response) => {
-        if (response.status !== 200) {
-          setError(response.data.message);
-          return;
+    setLoading(true);
+    setError("");
+
+    try {
+        const { data, error } = await supabase
+            .from("user")
+            .select("*")
+            .eq("email", dataForm.email)
+            .eq("password", dataForm.password)
+            .single();
+
+        if (error || !data) {
+            setError("Email atau password salah");
+            return;
         }
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(data)
+        );
+
         navigate("/");
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.message || "An error occurred");
-        } else {
-          setError(err.message || "An unknown error occurred");
-        }
-      })
-      .finally(() => {
+    } catch (err) {
+        setError(err.message);
+    } finally {
         setLoading(false);
-      });
-  };
+    }
+};
 
   const errorInfo = error ? (
     <div className="bg-red-100 border border-red-200 mb-5 p-4 text-sm font-medium text-red-600 rounded-lg flex items-center">
