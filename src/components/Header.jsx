@@ -24,7 +24,7 @@ export default function Header() {
              
                 <div id="profile-container" className="flex items-center space-x-4 border-l pl-4 border-gray-300">
                     <span id="profile-text" className="text-gray-700"> Head Mechanic, <b className="text-blue-600">Ihsan Yazid</b> </span>
-                    <img id="profile-avatar" src="https://avatar.iran.liara.run/public/28" className="w-10 h-10 rounded-full border-2 border-blue-600" />
+                    <img id="profile-avatar" src="/img/gearshift-team.PNG" className="w-10 h-10 rounded-full border-2 border-blue-600 object-cover" alt="Foto profil" />
                 </div>
             </div>
         </div>

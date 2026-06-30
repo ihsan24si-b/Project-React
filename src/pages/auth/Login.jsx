@@ -1,4 +1,3 @@
-import { supabase } from "../../lib/supabase";
 import { useState } from "react";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
@@ -21,36 +20,27 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+        e.preventDefault();
 
-    setLoading(true);
-    setError("");
+        setLoading(true);
+        setError("");
 
-    try {
-        const { data, error } = await supabase
-            .from("user")
-            .select("*")
-            .eq("email", dataForm.email)
-            .eq("password", dataForm.password)
-            .single();
+        const storedUsers = localStorage.getItem("gearshift_users");
+        const users = storedUsers ? JSON.parse(storedUsers) : [];
+        const existingUser = users.find(
+            (user) => user.email === dataForm.email && user.password === dataForm.password
+        );
 
-        if (error || !data) {
+        if (!existingUser) {
             setError("Email atau password salah");
+            setLoading(false);
             return;
         }
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(data)
-        );
-
+        localStorage.setItem("user", JSON.stringify(existingUser));
         navigate("/");
-    } catch (err) {
-        setError(err.message);
-    } finally {
         setLoading(false);
-    }
 };
 
   const errorInfo = error ? (
@@ -89,7 +79,7 @@ export default function Login() {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+          <label className="flex text-sm font-bold text-slate-700 mb-2 justify-between">
             <span>Password</span>
             <Link to="/forgot" className="text-blue-600 hover:underline text-xs font-semibold">Forgot Password?</Link>
           </label>

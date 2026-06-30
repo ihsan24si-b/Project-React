@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../../lib/supabase"; 
 
 export default function Register() {
     const navigate = useNavigate();
@@ -11,7 +10,6 @@ export default function Register() {
         confirmPassword: "",
     });
 
-    // Handler untuk mendeteksi perubahan input
     const handleChange = (e) => {
         const { name, value } = e.target;
         setDataForm({
@@ -20,49 +18,34 @@ export default function Register() {
         });
     };
 
-    // Handler saat form disubmit
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        // 1. Validasi kecocokan password
         if (dataForm.password !== dataForm.confirmPassword) {
             alert("Password tidak sama");
             return;
         }
 
-        try {
-            // 2. Cek apakah email sudah terdaftar di database
-            const { data: existingUser } = await supabase
-                .from("user")
-                .select("*")
-                .eq("email", dataForm.email);
+        const storedUsers = localStorage.getItem("gearshift_users");
+        const users = storedUsers ? JSON.parse(storedUsers) : [];
+        const existingUser = users.find((user) => user.email === dataForm.email);
 
-            if (existingUser && existingUser.length > 0) {
-                alert("Email sudah digunakan");
-                return;
-            }
-
-            // 3. Insert data ke tabel 'user' (Role disesuaikan jadi 'mechanic')
-            const { error } = await supabase
-                .from("user")
-                .insert([
-                    {
-                        email: dataForm.email,
-                        password: dataForm.password,
-                        role: "mechanic", 
-                    },
-                ]);
-
-            if (error) {
-                alert(error.message);
-                return;
-            }
-
-            alert("Registrasi berhasil!");
-            navigate("/login"); // Pindah ke halaman login setelah sukses
-        } catch (err) {
-            alert(err.message);
+        if (existingUser) {
+            alert("Email sudah digunakan");
+            return;
         }
+
+        const newUser = {
+            id: Date.now(),
+            email: dataForm.email,
+            password: dataForm.password,
+            role: "mechanic",
+            createdAt: new Date().toISOString(),
+        };
+
+        localStorage.setItem("gearshift_users", JSON.stringify([...users, newUser]));
+        alert("Registrasi berhasil!");
+        navigate("/login");
     };
 
     return (
