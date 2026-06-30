@@ -4,7 +4,7 @@ export default function Forgot() {
     return (
         <div>
             <h2 className="text-2xl font-bold text-slate-700 mb-2 text-center">
-                Forgot Password?
+                Forgot Ur Password?
             </h2>
             
             <p className="text-sm text-slate-500 mb-6 text-center">
