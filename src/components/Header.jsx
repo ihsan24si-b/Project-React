@@ -1,8 +1,24 @@
+import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch } from "react-icons/fa";
 import { FcAreaChart } from "react-icons/fc";
 import { SlSettings } from "react-icons/sl";
 
 export default function Header() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const stored = window.localStorage.getItem("user");
+            setUser(stored ? JSON.parse(stored) : null);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        if (typeof window === "undefined") return;
+        window.localStorage.removeItem("user");
+        window.location.href = "/";
+    };
+
     return (
         <div id="header-container" className="flex justify-between items-center p-4">
             <div id="search-bar" className="relative w-full max-w-lg">
@@ -26,6 +42,14 @@ export default function Header() {
                     <span id="profile-text" className="text-gray-700"> Head Mechanic, <b className="text-blue-600">Ihsan Yazid</b> </span>
                     <img id="profile-avatar" src="/img/gearshift-team.PNG" className="w-10 h-10 rounded-full border-2 border-blue-600 object-cover" alt="Foto profil" />
                 </div>
+                {user ? (
+                    <button
+                        onClick={handleLogout}
+                        className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                    >
+                        Logout
+                    </button>
+                ) : null}
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loading from "./components/Loading";
+import { RequireAuth, RequireAdmin } from "./components/RequireAuth";
 
 // Lazy Load Layouts
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
@@ -26,17 +27,24 @@ export default function App() {
                 {/* Main Layout: Membutuhkan Sidebar & Header */}
                 <Route element={<MainLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/services" element={<ServiceQueue />} />
                     <Route path="/spareparts" element={<Spareparts />} />
                     <Route path="/spareparts/:id" element={<SparepartDetail />} />
                     <Route path="/components" element={<Components />} />
+                    <Route path="/member/dashboard" element={
+                        <RequireAuth>
+                            <MemberDashboard />
+                        </RequireAuth>
+                    } />
+                    <Route path="/admin" element={
+                        <RequireAdmin>
+                            <Admin />
+                        </RequireAdmin>
+                    } />
                 </Route>
 
                 {/* Guest Landing Page */}
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/member/dashboard" element={<MemberDashboard />} />
-                <Route path="/admin" element={<Admin />} />
 
                 {/* Auth Layout: Halaman Polos (Login/Register) */}
                 <Route element={<AuthLayout />}>

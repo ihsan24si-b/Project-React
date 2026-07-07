@@ -16,7 +16,7 @@ export default function Sidebar() {
             <div id="sidebar-menu" className="flex-1">
                 <ul id="menu-list" className="space-y-2">
                     <li>
-                        <Link to="/" id="menu-1" className={menuClass}>
+                        <Link to="/admin" id="menu-1" className={menuClass}>
                             <MdSpaceDashboard className="mr-3 text-2xl" /> Dashboard
                         </Link>
                     </li>
