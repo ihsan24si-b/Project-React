@@ -16,6 +16,8 @@ const Register = React.lazy(() => import("./pages/auth/Register"));
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
 const Components = React.lazy(() => import("./pages/Components"));
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
+const MemberDashboard = React.lazy(() => import("./pages/MemberDashboard"));
+const Admin = React.lazy(() => import("./pages/Admin"));
 
 export default function App() {
     return (
@@ -33,6 +35,8 @@ export default function App() {
 
                 {/* Guest Landing Page */}
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/member/dashboard" element={<MemberDashboard />} />
+                <Route path="/admin" element={<Admin />} />
 
                 {/* Auth Layout: Halaman Polos (Login/Register) */}
                 <Route element={<AuthLayout />}>

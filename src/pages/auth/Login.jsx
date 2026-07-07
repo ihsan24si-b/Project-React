@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../../lib/supabase";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 import { useNavigate, Link } from "react-router-dom";
@@ -20,17 +21,68 @@ export default function Login() {
     });
   };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
         e.preventDefault();
 
         setLoading(true);
         setError("");
 
+        // Try Supabase auth first
+        try {
+          const { data, error: supaError } = await supabase.auth.signInWithPassword({
+            email: dataForm.email,
+            password: dataForm.password,
+          });
+
+          if (!supaError && data && data.user) {
+            const u = data.user;
+            const { data: profile, error: profileError } = await supabase
+              .from("profiles")
+              .select("role, full_name")
+              .eq("id", u.id)
+              .single();
+
+            const role = profile?.role || (u.email === "admin@gmail.com" ? "admin" : "member");
+            const name = profile?.full_name || (u.user_metadata && u.user_metadata.full_name) || u.email;
+            const userObj = {
+              id: u.id ?? "",
+              email: u.email,
+              role,
+              name,
+              createdAt: new Date().toISOString(),
+            };
+
+            localStorage.setItem("user", JSON.stringify(userObj));
+            if (role === "admin") navigate("/admin");
+            else navigate("/member/dashboard");
+            setLoading(false);
+            return;
+          }
+        } catch (err) {
+          // continue to fallback
+        }
+
+        // Fallback to localStorage-based auth (existing behavior)
         const storedUsers = localStorage.getItem("gearshift_users");
         const users = storedUsers ? JSON.parse(storedUsers) : [];
         const existingUser = users.find(
             (user) => user.email === dataForm.email && user.password === dataForm.password
         );
+
+        // Also allow a hardcoded admin credential fallback
+        if (!existingUser && dataForm.email === "admin@gmail.com" && dataForm.password === "admin123") {
+            const adminUser = {
+                id: "admin",
+                email: "admin@gmail.com",
+                role: "admin",
+                name: "Administrator",
+                createdAt: new Date().toISOString(),
+            };
+            localStorage.setItem("user", JSON.stringify(adminUser));
+            navigate("/admin");
+            setLoading(false);
+            return;
+        }
 
         if (!existingUser) {
             setError("Email atau password salah");
@@ -39,7 +91,7 @@ const handleSubmit = (e) => {
         }
 
         localStorage.setItem("user", JSON.stringify(existingUser));
-        navigate("/");
+        navigate("/member/dashboard");
         setLoading(false);
 };
 

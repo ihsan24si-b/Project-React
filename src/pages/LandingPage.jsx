@@ -104,14 +104,25 @@ export default function LandingPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [members, setMembers] = useState(() => {
     if (typeof window === "undefined") return [];
+    const storedUser = window.localStorage.getItem("user");
+    if (!storedUser) return [];
     const stored = window.localStorage.getItem("gearshift_members");
     return stored ? JSON.parse(stored) : [];
+  });
+  const [user, setUser] = useState(() => {
+    if (typeof window === "undefined") return null;
+    const stored = window.localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
   });
   const [memberName, setMemberName] = useState("");
   const [memberEmail, setMemberEmail] = useState("");
   const [memberWhatsapp, setMemberWhatsapp] = useState("");
   const [memberVehicle, setMemberVehicle] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState("");
+  const [bookingPromo, setBookingPromo] = useState("");
+  const [bookingNotes, setBookingNotes] = useState("");
 
   useEffect(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -135,6 +146,17 @@ export default function LandingPage() {
   useEffect(() => {
     window.localStorage.setItem("gearshift_members", JSON.stringify(members));
   }, [members]);
+
+  useEffect(() => {
+    const handleStorage = (e) => {
+      if (e.key === "user") {
+        const newUser = e.newValue ? JSON.parse(e.newValue) : null;
+        setUser(newUser);
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   function handleMemberSubmit(event) {
     event.preventDefault();
@@ -178,6 +200,41 @@ export default function LandingPage() {
     setActiveService(null);
   }
 
+  function handleConfirmBooking(e) {
+    e.preventDefault && e.preventDefault();
+    if (!user) {
+      // redirect guest to login before confirming
+      window.location.href = "/login";
+      return;
+    }
+
+    if (!bookingDate || !bookingTime) {
+      setSuccessMessage("Silakan pilih tanggal dan jam kedatangan.");
+      return;
+    }
+
+    const stored = window.localStorage.getItem("gearshift_bookings");
+    const bookings = stored ? JSON.parse(stored) : [];
+    const newBooking = {
+      id: Date.now(),
+      serviceId: activeService?.id,
+      serviceTitle: activeService?.title,
+      date: bookingDate,
+      time: bookingTime,
+      promo: bookingPromo,
+      notes: bookingNotes,
+      userId: user?.id ?? null,
+      createdAt: new Date().toISOString(),
+    };
+    window.localStorage.setItem("gearshift_bookings", JSON.stringify([newBooking, ...bookings]));
+    setSuccessMessage(`Booking antrean untuk ${newBooking.serviceTitle} pada ${newBooking.date} ${newBooking.time} berhasil.`);
+    setBookingDate("");
+    setBookingTime("");
+    setBookingPromo("");
+    setBookingNotes("");
+    setIsDialogOpen(false);
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
       <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
@@ -197,12 +254,32 @@ export default function LandingPage() {
             </a>
           </nav>
           <div className="flex items-center gap-3">
-            <a href="/login" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
-              Masuk
-            </a>
-            <a href="/register" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">
-              Daftar
-            </a>
+            {user ? (
+              <>
+                <a href="/" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+                  Dashboard
+                </a>
+                <button
+                  onClick={() => {
+                    window.localStorage.removeItem("user");
+                    setUser(null);
+                    window.location.href = "/";
+                  }}
+                  className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                >
+                  Keluar
+                </button>
+              </>
+            ) : (
+              <>
+                <a href="/login" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+                  Masuk
+                </a>
+                <a href="/register" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">
+                  Daftar
+                </a>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -223,12 +300,16 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <a href="/register" className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
-                Mulai sekarang <FaArrowRight />
-              </a>
-              <a href="/login" className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
-                Sudah punya akun
-              </a>
+              {!user ? (
+                <>
+                  <a href="/register" className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
+                    Mulai sekarang <FaArrowRight />
+                  </a>
+                  <a href="/login" className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
+                    Sudah punya akun
+                  </a>
+                </>
+              ) : null}
             </div>
             <div className="flex flex-wrap gap-4 pt-3 text-sm text-slate-600">
               <span className="rounded-full bg-white px-3 py-2 shadow-sm">24/7 pantauan servis</span>
@@ -351,6 +432,13 @@ export default function LandingPage() {
                       <button
                         type="button"
                         disabled={service.stok === 0}
+                        onClick={() => {
+                          if (!user) {
+                            window.location.href = "/login";
+                            return;
+                          }
+                          handleOpenDetail(service);
+                        }}
                         className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ${
                           service.stok === 0
                             ? "cursor-not-allowed bg-slate-200 text-slate-500"
@@ -412,7 +500,7 @@ export default function LandingPage() {
               </div>
               <div className="rounded-4xl bg-blue-600 p-4 text-white shadow-lg lg:w-90">
                 <p className="text-sm uppercase tracking-[0.24em] text-blue-200">Member terdaftar</p>
-                <p className="mt-3 text-5xl font-bold">{members.length}</p>
+                <p className="mt-3 text-5xl font-bold">{user ? members.length : 0}</p>
                 <p className="mt-2 text-sm text-blue-100">Pendaftar baru siap menikmati promo dan layanan VIP.</p>
               </div>
             </div>
@@ -526,25 +614,64 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <Dialog open={isDialogOpen} title={activeService?.title ?? "Detail Layanan"} onClose={handleCloseDetail}>
+        <Dialog open={isDialogOpen} title={activeService ? "Daftar Antrean — Servis Kendaraan" : "Detail Layanan"} onClose={handleCloseDetail}>
           {activeService ? (
-            <div className="space-y-4 text-slate-700">
-              <p className="text-sm text-slate-500">Kategori: {activeService.category}</p>
-              <p>{activeService.details}</p>
+            <form onSubmit={handleConfirmBooking} className="space-y-4 text-slate-700">
+              <p className="text-sm text-slate-500">Layanan: <span className="font-semibold text-slate-900">{activeService.title}</span> — {activeService.category}</p>
+
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-3xl bg-slate-50 p-4">
-                  <p className="text-sm font-semibold text-slate-900">Estimasi waktu</p>
-                  <p className="mt-2 text-sm text-slate-600">{activeService.duration}</p>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Pilih Tanggal Servis</label>
+                  <input
+                    type="date"
+                    value={bookingDate}
+                    onChange={(e) => setBookingDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                    placeholder="dd/mm/yyyy"
+                  />
                 </div>
-                <div className="rounded-3xl bg-slate-50 p-4">
-                  <p className="text-sm font-semibold text-slate-900">Suku cadang</p>
-                  <p className="mt-2 text-sm text-slate-600">{activeService.parts}</p>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Pilih Jam Kedatangan</label>
+                  <input
+                    type="time"
+                    value={bookingTime}
+                    onChange={(e) => setBookingTime(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                    placeholder="--:--"
+                  />
                 </div>
               </div>
-              <div className="rounded-3xl bg-blue-50 p-4 text-sm font-semibold text-blue-700">
-                Sisa slot hari ini: {activeService.stok}
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Kolom Kode Promo</label>
+                <input
+                  type="text"
+                  value={bookingPromo}
+                  onChange={(e) => setBookingPromo(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  placeholder="Masukkan kode promo jika ada"
+                />
               </div>
-            </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Keluhan / Catatan (opsional)</label>
+                <textarea
+                  value={bookingNotes}
+                  onChange={(e) => setBookingNotes(e.target.value)}
+                  placeholder='Keluhan kendaraan / tipe kendaraan / catatan khusus (opsional)'
+                  className="w-full min-h-[80px] px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+                <p className="mt-2 text-sm text-slate-500">Contoh: "Rem depan bunyi derit, ganti oli sekalian"</p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-slate-600">Sisa slot hari ini: <span className="font-semibold text-blue-700">{activeService.stok}</span></div>
+                <div className="flex items-center gap-3">
+                  <button type="button" onClick={handleCloseDetail} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Batal</button>
+                  <button type="submit" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">Konfirmasi Booking Antrean</button>
+                </div>
+              </div>
+            </form>
           ) : (
             <p className="text-slate-600">Memuat detail layanan...</p>
           )}
@@ -557,12 +684,16 @@ export default function LandingPage() {
               Buka GearShift dan kelola bengkel Anda lebih nyaman.
             </h2>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <a href="/register" className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
-                Daftar sekarang
-              </a>
-              <a href="/login" className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
-                Masuk ke akun
-              </a>
+              {!user ? (
+                <>
+                  <a href="/register" className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
+                    Daftar sekarang
+                  </a>
+                  <a href="/login" className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
+                    Masuk ke akun
+                  </a>
+                </>
+              ) : null}
             </div>
           </div>
         </section>
