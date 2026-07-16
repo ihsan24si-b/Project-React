@@ -40,55 +40,95 @@ const defaultServices = [
   {
     id: 1,
     title: "Ganti Oli Mesin",
+    heroTitle: "Ganti Oli Mesin (Paket Perawatan)",
     category: "Perawatan",
-    description: "Servis ganti oli lengkap untuk menjaga performa dan umur mesin.",
-    details: "Ganti oli mesin, saringan oli baru, pemeriksaan kebocoran, dan pembersihan komponen ringan.",
+    cardDescription: "Servis ganti oli lengkap untuk menjaga performa dan umur mesin.",
+    detailInfo: "🕒 Estimasi: 60 Menit | 👨‍🔧 Mekanik: Ahli Pelumasan | ⚡ 5 slot antrean tersedia hari ini",
+    badges: ["Oli Original", "Termasuk Filter Oli"],
+    detailedDescription:
+      "Layanan penggantian oli mesin secara menyeluruh untuk menjaga keausan komponen internal, mendinginkan suhu mesin, dan memperpanjang umur pakai kendaraan Anda. Sangat direkomendasikan setiap pemakaian 5.000 - 10.000 KM.",
+    leftBenefits: ["Pengurasan Oli Lama", "Penggantian Filter Oli Baru", "Pembersihan Sumbatan Oli"],
+    rightBenefits: ["Pengecekan Level Dipstick", "Ruang Tunggu AC & Wi-Fi", "Free Drink"],
     duration: "60 menit",
     parts: "Oli mesin, filter oli",
+    price: "Rp 350.000",
+    priceSuffix: "/ servis",
     stok: 5,
     jumlah_klik: 0,
   },
   {
     id: 2,
     title: "Tune Up Ringan",
+    heroTitle: "Tune Up Ringan (Paket Perawatan)",
     category: "Perawatan",
-    description: "Tune up untuk meningkatkan efisiensi bahan bakar dan respons mesin.",
-    details: "Pembersihan busi, pembersihan karburator/injeksi, dan pengaturan kembali sistem pengapian.",
+    cardDescription: "Tune up untuk meningkatkan efisiensi bahan bakar dan respons mesin.",
+    detailInfo: "🕒 Estimasi: 90 Menit | 👨‍🔧 Mekanik: Engine Tuner | ⚡ 3 slot antrean tersedia hari ini",
+    badges: ["Bahan Bakar Irit", "Respons Responsif"],
+    detailedDescription:
+      "Mengembalikan performa mesin yang mulai loyo. Fokus pada optimalisasi sistem pembakaran dan udara agar konsumsi bahan bakar kembali efisien dan tarikan gas menjadi lebih enteng serta responsif.",
+    leftBenefits: ["Pembersihan Busi & Throttle Body", "Kalibrasi Sensor Mesin", "Pembersihan Jalur Bahan Bakar"],
+    rightBenefits: ["Cek Filter Udara", "Ruang Tunggu AC & Wi-Fi", "Free Snack & Coffee"],
     duration: "90 menit",
     parts: "Busi, pembersihan sistem bahan bakar",
+    price: "Rp 450.000",
+    priceSuffix: "/ servis",
     stok: 3,
     jumlah_klik: 0,
   },
   {
     id: 3,
     title: "Perbaikan Rem",
+    heroTitle: "Perbaikan & Servis Rem (Paket Perbaikan)",
     category: "Perbaikan",
-    description: "Servis lengkap sistem rem untuk keselamatan berkendara.",
-    details: "Penggantian kampas rem, penggantian minyak rem, dan pemeriksaan kaliper serta selang rem.",
-    duration: "120 menit",
+    cardDescription: "Servis lengkap sistem rem untuk keselamatan berkendara.",
+    detailInfo: "🕒 Estimasi: 60 Menit | 👨‍🔧 Mekanik: Brake Specialist | ⚡ 3 slot antrean tersedia hari ini",
+    badges: ["Pengereman Pakem", "Safety Guaranteed"],
+    detailedDescription:
+      "Layanan vital untuk menjaga keselamatan berkendara Anda. Fokus pada perbaikan sistem pengereman yang kurang pakem, berbunyi derit, atau terasa bergetar saat diinjak. Komponen rem akan dibersihkan dan disetel ulang agar daya cengkeram kembali optimal.",
+    leftBenefits: ["Penggantian Kampas Rem (Pad/Shoe)", "Pembersihan & Pelumasan Kaliper", "Bleeding / Kuras Minyak Rem"],
+    rightBenefits: ["Cek Ketebalan Piringan Cakram", "Ruang Tunggu AC & Wi-Fi", "Free General Check-up 21 Titik"],
+    duration: "60 menit",
     parts: "Kampas rem, minyak rem",
-    stok: 0,
+    price: "Rp 250.000",
+    priceSuffix: "/ servis",
+    stok: 3,
     jumlah_klik: 0,
   },
   {
     id: 4,
     title: "Modifikasi Suspensi",
+    heroTitle: "Modifikasi & Upgrade Suspensi (Paket Modifikasi)",
     category: "Modifikasi",
-    description: "Upgrade suspensi untuk kenyamanan dan handling yang lebih baik.",
-    details: "Penggantian per pegas, peredam kejut, dan penyetelan ulang sudut ban jika diperlukan.",
+    cardDescription: "Upgrade suspensi untuk kenyamanan dan handling yang lebih baik.",
+    detailInfo: "🕒 Estimasi: 150 Menit | 👨‍🔧 Mekanik: Understeel Specialist | ⚡ 2 slot antrean tersedia hari ini",
+    badges: ["Garansi Setting", "Handling Stabil"],
+    detailedDescription:
+      "Upgrade sistem peredam kejut kendaraan untuk meningkatkan kenyamanan berkendara, meminimalkan gejala limbung saat kecepatan tinggi, serta memberikan kendali (handling) yang lebih presisi di berbagai medan jalan.",
+    leftBenefits: ["Pembongkaran & Pasang Per Pegas", "Penggantian Shock Absorber Baru", "Setting Ketinggian & Keempukan"],
+    rightBenefits: ["Pengecekan Kaki-Kaki Komplit", "Ruang Tunggu AC & Wi-Fi", "Free Cuci Kolong Kendaraan"],
     duration: "150 menit",
     parts: "Per pegas, shock absorber",
+    price: "Rp 1.200.000",
+    priceSuffix: "/ servis",
     stok: 2,
     jumlah_klik: 0,
   },
   {
     id: 5,
     title: "Servis AC Mobil",
+    heroTitle: "Servis & Perawatan AC Mobil (Paket Perbaikan)",
     category: "Perbaikan",
-    description: "Pemeriksaan dan pengisian ulang sistem pendingin AC mobil.",
-    details: "Pembersihan evaporator, pengecekan kompresor, dan refill freon sesuai standar pabrik.",
+    cardDescription: "Pemeriksaan dan pengisian ulang sistem pendingin AC mobil.",
+    detailInfo: "🕒 Estimasi: 90 Menit | 👨‍🔧 Mekanik: AC Specialist | ⚡ 4 slot antrean tersedia hari ini",
+    badges: ["Dingin Maksimal", "Bebas Bau"],
+    detailedDescription:
+      "Mengatasi masalah AC kurang dingin, bau tidak sedap, atau hembusan angin lemah. Proses perawatan mencakup pembersihan evaporator dan pengisian ulang komponen pendingin agar kabin kembali sejuk dan nyaman.",
+    leftBenefits: ["Pengisian Ulang Freon R134a", "Pembersihan Filter & Evaporator AC", "Cek Kebocoran Selang Kompresor"],
+    rightBenefits: ["Uji Suhu Kabin Digital", "Ruang Tunggu AC & Wi-Fi", "Free Fogging Anti Bakteri"],
     duration: "90 menit",
     parts: "Freon, pembersihan AC",
+    price: "Rp 550.000",
+    priceSuffix: "/ servis",
     stok: 4,
     jumlah_klik: 0,
   },
@@ -102,6 +142,8 @@ export default function LandingPage() {
   const [topServices, setTopServices] = useState([]);
   const [activeService, setActiveService] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [bookingService, setBookingService] = useState(null);
+  const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
   const [members, setMembers] = useState(() => {
     if (typeof window === "undefined") return [];
     const storedUser = window.localStorage.getItem("user");
@@ -200,11 +242,26 @@ export default function LandingPage() {
     setActiveService(null);
   }
 
+  function handleOpenBooking(service) {
+    setBookingService(service);
+    setIsBookingDialogOpen(true);
+  }
+
+  function handleCloseBooking() {
+    setIsBookingDialogOpen(false);
+    setBookingService(null);
+  }
+
   function handleConfirmBooking(e) {
     e.preventDefault && e.preventDefault();
     if (!user) {
       // redirect guest to login before confirming
       window.location.href = "/login";
+      return;
+    }
+
+    if (!bookingService) {
+      setSuccessMessage("Silakan pilih layanan terlebih dahulu.");
       return;
     }
 
@@ -217,8 +274,8 @@ export default function LandingPage() {
     const bookings = stored ? JSON.parse(stored) : [];
     const newBooking = {
       id: Date.now(),
-      serviceId: activeService?.id,
-      serviceTitle: activeService?.title,
+      serviceId: bookingService.id,
+      serviceTitle: bookingService.title,
       date: bookingDate,
       time: bookingTime,
       promo: bookingPromo,
@@ -232,7 +289,12 @@ export default function LandingPage() {
     setBookingTime("");
     setBookingPromo("");
     setBookingNotes("");
-    setIsDialogOpen(false);
+    setIsBookingDialogOpen(false);
+    setBookingService(null);
+    setBookingDate("");
+    setBookingTime("");
+    setBookingPromo("");
+    setBookingNotes("");
   }
 
   return (
@@ -415,7 +477,7 @@ export default function LandingPage() {
                         {service.stok > 0 ? `${service.stok} slot` : "Slot Penuh"}
                       </div>
                     </div>
-                    <p className="mt-4 text-sm leading-7 text-slate-600">{service.description}</p>
+                    <p className="mt-4 text-sm leading-7 text-slate-600">{service.cardDescription}</p>
                     <div className="mt-5 flex flex-wrap gap-2 text-sm text-slate-600">
                       <span className="rounded-full bg-slate-100 px-3 py-2">{service.duration}</span>
                       <span className="rounded-full bg-slate-100 px-3 py-2">{service.parts}</span>
@@ -437,7 +499,7 @@ export default function LandingPage() {
                             window.location.href = "/login";
                             return;
                           }
-                          handleOpenDetail(service);
+                          handleOpenBooking(service);
                         }}
                         className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ${
                           service.stok === 0
@@ -473,7 +535,7 @@ export default function LandingPage() {
                         {service.jumlah_klik} klik
                       </div>
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.cardDescription}</p>
                   </div>
                 ))}
                 {topServices.length === 0 ? (
@@ -614,10 +676,91 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <Dialog open={isDialogOpen} title={activeService ? "Daftar Antrean — Servis Kendaraan" : "Detail Layanan"} onClose={handleCloseDetail}>
+        <Dialog open={isDialogOpen} title={activeService ? "Detail Layanan" : "Memuat detail layanan..."} onClose={handleCloseDetail}>
           {activeService ? (
-            <form onSubmit={handleConfirmBooking} className="space-y-4 text-slate-700">
-              <p className="text-sm text-slate-500">Layanan: <span className="font-semibold text-slate-900">{activeService.title}</span> — {activeService.category}</p>
+            <div className="space-y-6 text-slate-700">
+              <div className="space-y-4 rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">{activeService.category}</p>
+                    <h2 className="mt-2 text-2xl font-bold text-slate-900">{activeService.heroTitle || activeService.title}</h2>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{activeService.detailInfo || `${activeService.duration} • ${activeService.parts}`}</p>
+                  </div>
+                  <div className="rounded-3xl bg-blue-600 px-4 py-3 text-right text-white">
+                    <p className="text-sm opacity-80">Harga</p>
+                    <p className="mt-1 text-xl font-semibold">{activeService.price}</p>
+                    <p className="text-xs text-blue-100">{activeService.priceSuffix}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(activeService.badges || []).map((badge) => (
+                    <span key={badge} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">{badge}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-sm leading-7 text-slate-600">{activeService.detailedDescription}</p>
+              </div>
+
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                  <h3 className="text-lg font-semibold text-slate-900">Cakupan Pengerjaan</h3>
+                  <ul className="mt-4 space-y-3 text-sm text-slate-600">
+                    {(activeService.leftBenefits || []).map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="mt-1 text-green-600">✅</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                  <h3 className="text-lg font-semibold text-slate-900">Fasilitas & Tambahan</h3>
+                  <ul className="mt-4 space-y-3 text-sm text-slate-600">
+                    {(activeService.rightBenefits || []).map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="mt-1 text-green-600">✅</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <button type="button" onClick={handleCloseDetail} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+                  Tutup
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-slate-600">Memuat detail layanan...</p>
+          )}
+        </Dialog>
+
+        <Dialog open={isBookingDialogOpen} title={bookingService ? `Booking ${bookingService.title}` : "Booking layanan"} onClose={handleCloseBooking}>
+          {bookingService ? (
+            <form onSubmit={handleConfirmBooking} className="space-y-6 text-slate-700">
+              <div className="space-y-4 rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">{bookingService.category}</p>
+                    <h2 className="mt-2 text-2xl font-bold text-slate-900">{bookingService.heroTitle || bookingService.title}</h2>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{bookingService.detailInfo || `${bookingService.duration} • ${bookingService.parts}`}</p>
+                  </div>
+                  <div className="rounded-3xl bg-blue-600 px-4 py-3 text-right text-white">
+                    <p className="text-sm opacity-80">Harga</p>
+                    <p className="mt-1 text-xl font-semibold">{bookingService.price}</p>
+                    <p className="text-xs text-blue-100">{bookingService.priceSuffix}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(bookingService.badges || []).map((badge) => (
+                    <span key={badge} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">{badge}</span>
+                  ))}
+                </div>
+              </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
@@ -659,21 +802,21 @@ export default function LandingPage() {
                   value={bookingNotes}
                   onChange={(e) => setBookingNotes(e.target.value)}
                   placeholder='Keluhan kendaraan / tipe kendaraan / catatan khusus (opsional)'
-                  className="w-full min-h-[80px] px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  className="w-full min-h-20 px-3 py-2 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                 />
                 <p className="mt-2 text-sm text-slate-500">Contoh: "Rem depan bunyi derit, ganti oli sekalian"</p>
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="text-sm text-slate-600">Sisa slot hari ini: <span className="font-semibold text-blue-700">{activeService.stok}</span></div>
+                <div className="text-sm text-slate-600">Sisa slot hari ini: <span className="font-semibold text-blue-700">{bookingService.stok}</span></div>
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={handleCloseDetail} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Batal</button>
+                  <button type="button" onClick={handleCloseBooking} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Batal</button>
                   <button type="submit" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">Konfirmasi Booking Antrean</button>
                 </div>
               </div>
             </form>
           ) : (
-            <p className="text-slate-600">Memuat detail layanan...</p>
+            <p className="text-slate-600">Memuat informasi booking...</p>
           )}
         </Dialog>
 
